@@ -3,10 +3,13 @@ from httpx import AsyncClient
 
 async def test_login_sucess(client: AsyncClient):
     # Given
-    data = {"user_id": 1}
+    data = {"user_id": "1"}
     
     # When
     response = await client.post("auth/login", json=data)
+
+    if response.status_code == 422:
+        print("\nERRO DE VALIDAÇÃO:", response.json())
     
     # Then
     assert response.status_code == status.HTTP_200_OK

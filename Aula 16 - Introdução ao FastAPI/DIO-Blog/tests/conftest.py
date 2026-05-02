@@ -6,6 +6,7 @@ from httpx import ASGITransport, AsyncClient
 
 # Rodar os testes:
 # -> poetry run pytest -v
+# -> poetry run pytest -v -s tests/integration/controllers/auth/test_login.py
 # -> poetry run pytest -v tests/integration/controllers/post/test_create_post.py
 # -> poetry run pytest -v tests/integration/controllers/post/test_read_all.py
 # -> poetry run pytest -v tests/integration/controllers/post/test_update_post.py
@@ -38,10 +39,15 @@ async def client(db):
         "Content-Type": "application/json"
     }
     
-    async with AsyncClient(base_url="http://test", transport=transport, headers=headers) as client:
+    async with AsyncClient(
+        base_url="http://test",
+        transport=transport,
+        headers=headers,
+        follow_redirects=True
+    ) as client:
         yield client
         
 @pytest_asyncio.fixture
 async def access_token(client):
     response = await client.post("auth/login", json={"user_id": "1"})
-    return response.json()["token"]
+    return response.json()["access_token"]

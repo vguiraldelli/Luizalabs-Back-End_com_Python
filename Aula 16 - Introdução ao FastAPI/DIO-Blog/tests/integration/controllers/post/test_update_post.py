@@ -30,7 +30,7 @@ async def test_update_post_success(client: AsyncClient, access_token: str):
     }
     
     # WHEN
-    response = await client.put(f"/posts/{post_id}", json=data, headers=headers)
+    response = await client.patch(f"/posts/{post_id}", json=data, headers=headers)
     
     # THEN
     content = response.json()
@@ -43,7 +43,7 @@ async def test_update_post_not_authenticated_fail(client: AsyncClient):
     post_id = 1
     
     # WHEN
-    response = await client.put(f"/posts/{post_id}", headers={})
+    response = await client.patch(f"/posts/{post_id}", headers={})
     
     # THEN
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
@@ -61,7 +61,7 @@ async def test_update_post_not_found_fail(client: AsyncClient, access_token: str
     }
     
     # WHEN
-    response = await client.put(f"/posts/{post_id}", json=data, headers=headers)
+    response = await client.patch(f"/posts/{post_id}", json=data, headers=headers)
     
     # THEN
 

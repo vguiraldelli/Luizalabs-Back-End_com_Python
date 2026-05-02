@@ -20,7 +20,7 @@ router = APIRouter(prefix="/posts", tags=["posts"], dependencies=[Depends(login_
 # ]
 
 # Listar todos os posts
-@router.get("/", response_model=list[PostOut])
+@router.get("", response_model=list[PostOut])
 async def read_all_posts(published: bool | None = None, limit: int = 100, skip: int = 0):
     return await service.read_all(published=published, limit=limit, skip=skip)
 
@@ -30,7 +30,7 @@ async def read_post(id: int):
     return await service.read(id)
 
 # Criar um novo post
-@router.post("/", status_code=status.HTTP_201_CREATED, response_model=PostOut)
+@router.post("", status_code=status.HTTP_201_CREATED, response_model=PostOut)
 async def create_post(post: PostIn):
     command = posts.insert().values(
         title=post.title,

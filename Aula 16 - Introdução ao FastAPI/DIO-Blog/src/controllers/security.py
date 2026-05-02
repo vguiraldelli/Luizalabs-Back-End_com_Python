@@ -35,7 +35,7 @@ def sign_jwt(user_id: str) -> dict:
         SECRET,
         ALGORITHM
     )
-    return {"token": token}
+    return {"access_token": token}
     
 
 async def decode_jwt(token: str) -> JWTToken | None:

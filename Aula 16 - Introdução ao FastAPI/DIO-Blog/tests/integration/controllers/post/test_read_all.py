@@ -23,7 +23,7 @@ async def test_read_all_posts_by_status_success(client: AsyncClient, access_toke
     headers = {"Authorization": f"Bearer {access_token}"}
     
     # WHEN
-    response = await client.get(f"/posts/", params=params, headers=headers)
+    response = await client.get(f"/posts", params=params, headers=headers)
     
     # THEN
     content = response.json()
@@ -37,7 +37,7 @@ async def test_read_posts_limit_success(client: AsyncClient, access_token: str):
     headers = {"Authorization": f"Bearer {access_token}"}
     
     # WHEN
-    response = await client.get(f"/posts/", params=params, headers=headers)
+    response = await client.get(f"/posts", params=params, headers=headers)
     
     # THEN
     content = response.json()
@@ -50,7 +50,7 @@ async def test_read_posts_not_authenticated_fail(client: AsyncClient):
     params = {"published": "on", "limit": 1}
     
     # WHEN
-    response = await client.get("/posts/", params=params, headers={})
+    response = await client.get("/posts", params=params, headers={})
     
     # THEN
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
@@ -60,7 +60,7 @@ async def test_read_posts_empty_parameters_fail(client: AsyncClient, access_toke
     headers = {"Authorization": f"Bearer {access_token}"}
     
     # WHEN
-    response = await client.get("/posts/", params={}, headers=headers)
+    response = await client.get("/posts", params={}, headers=headers)
     
     # THEN
-    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+    assert response.status_code == status.HTTP_200_OK

@@ -15,6 +15,10 @@ async def test_create_post_success(client: AsyncClient, access_token: str):
     # WHEN
     response = await client.post("posts", json=data, headers=headers)
     
+    if response.status_code != 201: # Ou 200, dependendo da sua API
+        print(f"\nStatus: {response.status_code}")
+        print(f"Corpo da Resposta: {response.text}")
+
     # THEN
     content = response.json()
 
@@ -51,7 +55,7 @@ async def test_create_post_not_authenticated_fail(client: AsyncClient):
     }
     
     # WHEN
-    response = await client.post("/posts/", json=data, headers={})
+    response = await client.post("/posts", json=data, headers={})
     
     # THEN
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
