@@ -38,7 +38,6 @@ def read_item(item_id: int, q: str = None):
 
 
 # Exemplo de retorno de dados em formato JSON
-
 class Foo(BaseModel):
     bar: str
     message: str
